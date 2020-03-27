@@ -10,7 +10,7 @@ ts_ana_covid19 <- function(datapath_temp,datapath_cases,
 
 
 #temp_delhi <- read.csv(paste0(datapath_temp, "Delhi/delhi.csv"))
-temp_kerala <- read.csv(paste0(datapath_temp, "kerala.csv"))
+temp_kerala <- read.csv(datapath_temp)
 #temp_maha <- read.csv(paste0(datapath_temp, "Maharashtra/MAHARASHTRA.csv"))
 
 
