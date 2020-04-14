@@ -223,7 +223,8 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
       temp_Rx <- rbind(temp_Rx, c(i, State_nam, "Not enough data", NA, NA, NA))
     }
     colnames(temp_Rx) <- c("starting_cases_no","State_name", "R0", "start_date", 'beta','gamma')
-    return(fit_sel_non_cum, temp_Rx)
+    my_list <- list(fit_sel_non_cum, temp_Rx)
+    return(my_list)
   }
 
 
