@@ -6,10 +6,12 @@ library(dplyr)
 library(deSolve) 
 library(ggplot2) 
 
-PATH = '/mnt/c/Users/amogh/Documents/covid_time_series/covid19_Timeseries_analysis'
+PATH = '/mnt/c/Users/amogh/Documents/covid_time_series/covid19_Timeseries_analysis/'
 ##setwd('C:/aditya/Covid19/covid-19-india-data-master/complete.csv')
 
-df1 = read.csv('/mnt/c/Users/amogh/Documents/covid_time_series/covid19_Timeseries_analysis/complete.csv')
+df1 = read.csv(paste0(PATH,'complete.csv'))
+# df1 = read.csv('/mnt/c/Users/amogh/Documents/covid_time_series/covid19_Timeseries_analysis/complete.csv')
+
 df1_for_Sum  <- df1 %>% dplyr::select(-c("Name.of.State...UT", "Latitude", "Longitude"))
 df1_for_Sum <- df1_for_Sum %>% 
   group_by(Date) %>%
@@ -33,7 +35,8 @@ df1$Name.of.State...UT <-  gsub("Odisha", "Orissa", df1$Name.of.State...UT)
 df1$Name.of.State...UT <-  gsub("Union Territory of Chandigarh", "Chandigarh", df1$Name.of.State...UT)
 df1$Name.of.State...UT <-  gsub("Union Territory of Ladakh", "Ladakh", df1$Name.of.State...UT)
 
-population_data = read.csv('/mnt/c/Users/amogh/Documents/covid_time_series/covid19_Timeseries_analysis/Population_data.csv')
+population_data = read.csv(paste0(PATH,'Population_data.csv'))
+# population_data = read.csv('/mnt/c/Users/amogh/Documents/covid_time_series/covid19_Timeseries_analysis/Population_data.csv')
 population_data$Population <- as.numeric(gsub("\\,", "", population_data$Population))
 
 #sum(population_data$Population, na.rm =NA)
@@ -198,7 +201,7 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
                                         Actual_Recoverd_Non_cum)
       
       write.csv(fit_sel_non_cum, 
-                 paste0("/mnt/c/Users/amogh/Documents/covid_time_series/covid19_Timeseries_analysis" , 
+                 paste0(PATH, 
                         State_nam, "_Projections.csv"),row.names = F )
       
        # fit_sel_non_cum  <- fit %>% select(Date,Predicted_Infected_non_cum,
