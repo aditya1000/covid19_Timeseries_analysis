@@ -1,15 +1,14 @@
-
-
 SIR_model_simulate <- function(State_nam, starting_num_cases, Pred_time,opt_recovery,
                                min_recovery_rate, max_recovery_rate,
                                min_transmission_rate, max_transmission_rate
                                ){
 library(dplyr)
-library(deSolve) 
+library(deSolve)
+library(ggplot2)
 
 ##setwd('C:/aditya/Covid19/covid-19-india-data-master/complete.csv')
 
-df1 = read.csv('C:/aditya/Covid19/covid-19-india-data-master/complete.csv')
+df1 = read.csv('./complete.csv')
 df1_for_Sum  <- df1 %>% dplyr::select(-c("Name.of.State...UT", "Latitude", "Longitude"))
 df1_for_Sum <- df1_for_Sum %>% 
   group_by(Date) %>%
@@ -33,7 +32,7 @@ df1$Name.of.State...UT <-  gsub("Odisha", "Orissa", df1$Name.of.State...UT)
 df1$Name.of.State...UT <-  gsub("Union Territory of Chandigarh", "Chandigarh", df1$Name.of.State...UT)
 df1$Name.of.State...UT <-  gsub("Union Territory of Ladakh", "Ladakh", df1$Name.of.State...UT)
 
-population_data = read.csv('C:/aditya/Covid19/covid-19-india-data-master/Population_data.csv')
+population_data = read.csv('./Population_data.csv')
 population_data$Population <- as.numeric(gsub("\\,", "", population_data$Population))
 
 #sum(population_data$Population, na.rm =NA)
@@ -88,10 +87,12 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
       # int_gamma1 <- int_gamma - 0.9*(int_gamma) 
       # int_gamma2 <- int_gamma + 0.9*(int_gamma) 
       
-      int_beta1 <- min_transmission_rate
-      int_beta2 <- max_transmission_rate
-      int_gamma1 <- min_recovery_rate
-      int_gamma2 <- max_recovery_rate
+      int_beta1 <- as.numeric(min_transmission_rate)
+      print(int_beta1)
+      print(class(int_beta1))
+      int_beta2 <- as.numeric(max_transmission_rate)
+      int_gamma1 <- as.numeric(min_recovery_rate)
+      int_gamma2 <- as.numeric(max_recovery_rate)
       
       # R0_lo  <- int_beta1 / int_gamma1
       # R0_up  <- int_beta2 / int_gamma2
@@ -151,7 +152,7 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
       Opt_par
       
       
-      t <- 1:(nrow(df) + Pred_time)# time in days
+      t <- 1:(nrow(df) + as.numeric(Pred_time))# time in days
       model1 <- ode(y = init, times = t, func = SIR, parms = Opt_par)
       summary(model1)
       fit <- data.frame(ode(y = init, times = t, func = SIR, parms = Opt_par))
@@ -196,7 +197,7 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
                                         Actual_Recoverd_Non_cum)
       
       write.csv(fit_sel_non_cum, 
-                 paste0("C:/aditya/Covid19/covid-19-india-data-master/exp_results/" , 
+                 paste0("./" , 
                         State_nam, "_Projections.csv"),row.names = F )
       
        # fit_sel_non_cum  <- fit %>% select(Date,Predicted_Infected_non_cum,
@@ -227,6 +228,19 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
     return(my_list)
   }
 
+#take in arguments and run the function
 
-
-
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)==0) {
+  stop("At least one argument must be supplied (input file).n", call.=FALSE)
+} 
+print(args[1])
+print(args[2])
+print(args[3])
+print(args[4])
+print(args[5])
+SIR_model_simulate(args[1],as.numeric(args[2]),as.numeric(args[3]),args[4],args[5],args[6],args[7],args[8])
+# SIR_model_simulate <- function(State_nam, starting_num_cases, Pred_time,opt_recovery,
+#                                min_recovery_rate, max_recovery_rate,
+#                                min_transmission_rate, max_transmission_rate
+#                                )
