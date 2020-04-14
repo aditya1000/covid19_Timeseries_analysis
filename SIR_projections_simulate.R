@@ -4,7 +4,9 @@ SIR_model_simulate <- function(State_nam, starting_num_cases, Pred_time,opt_reco
                                ){
 library(dplyr)
 library(deSolve) 
+library(ggplot2) 
 
+PATH = '/mnt/c/Users/amogh/Documents/covid_time_series/covid19_Timeseries_analysis'
 ##setwd('C:/aditya/Covid19/covid-19-india-data-master/complete.csv')
 
 df1 = read.csv('/mnt/c/Users/amogh/Documents/covid_time_series/covid19_Timeseries_analysis/complete.csv')
