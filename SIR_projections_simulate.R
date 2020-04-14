@@ -194,7 +194,7 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
       
       fit$time <- NULL
       
-      fit_sel_non_cum <- fit %>% select(Date,
+      fit_sel_non_cum <- fit %>% dplyr::select(Date,
                                         Predicted_Infected_non_cum,
                                         Predicted_recovered_non_cum,
                                         Actual_Infected_Non_cum,
