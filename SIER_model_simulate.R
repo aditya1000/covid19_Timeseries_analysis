@@ -149,7 +149,7 @@ SIER_model_simulate <- function(State_nam,
       #print(out)
       out <- ode(init, Day, seir_model, parameters)
       #print(out)
-      fit <- out[,4]
+      fit <- out[,3]
       #print(parameters["gamma"])
       #sum((Infected - fit)^2+(Removed - out[,4])^2)
       x <- sum((Infected-fit)^2)
@@ -164,11 +164,12 @@ SIER_model_simulate <- function(State_nam,
       #print(out)
       out <- ode(init, Day, seir_model, parameters)
       #print(out)
-      fit <- out[,4]
+      fit <- out[,3]
+      rec <- out[,4]
       #print(parameters["gamma"])
       #sum((Infected - fit)^2+(Removed - out[,4])^2)
       x <- sum((Infected-fit)^2)
-      y <- sum((Recovered-fit)^2)
+      y <- sum((Recovered-rec)^2)
       z <- alpha*x + (1- alpha)*y 
       return(z)
     }
