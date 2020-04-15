@@ -202,20 +202,18 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
                                       Predicted_recovered_non_cum,
                                       Actual_Infected_Non_cum,
                                       Actual_Recoverd_Non_cum)
-    
+    dir.create(file.path(paste0(State_nam,"_Data"), 'cumulative'), recursive = TRUE)
+    dir.create(file.path(paste0(State_nam,"_Data"), 'non_cumulative'))
     write.csv(fit_sel_Cumulative, 
-               paste0("./cumulative/" , 
-                      State_nam, "_SIR.csv"),row.names = F )
+               paste0(file.path(paste0(State_nam,"_Data"), 'cumulative', "SIR.csv")),row.names = F )
     
     
     write.csv(fit_sel_non_cum, 
-              paste0("./non_cumulative/" , 
-                     State_nam, "_SIR.csv"),row.names = F )
-    
+              paste0(file.path(paste0(State_nam,"_Data"), 'non_cumulative', "SIR.csv")),row.names = F )
       
-      write.csv(fit_sel_non_cum, 
-                 paste0("./" , 
-                        State_nam, "_Projections.csv"),row.names = F )
+      # write.csv(fit_sel_non_cum, 
+      #            paste0("./" , 
+      #                   State_nam, "_Projections.csv"),row.names = F )
       
        # fit_sel_non_cum  <- fit %>% select(Date,Predicted_Infected_non_cum,
        #                                   Actual_Infected_Non_cum)
