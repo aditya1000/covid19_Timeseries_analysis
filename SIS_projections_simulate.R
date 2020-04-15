@@ -1,6 +1,6 @@
 
 
-SIR_model_simulate <- function(State_nam, 
+SIS_projections_simulate <- function(State_nam, 
                                starting_num_cases, 
                                Pred_time,
                                opt_recovery,
@@ -96,8 +96,8 @@ SIR_model_simulate <- function(State_nam,
     
     int_beta1 <- min_transmission_rate
     int_beta2 <- max_transmission_rate
-    int_gamma1 <- min_transmission_rate
-    int_gamma2 <- max_transmission_rate
+    int_gamma1 <- min_recovery_rate
+    int_gamma2 <- max_recovery_rate
   
     
     Day=1:(length(Infected))
@@ -273,6 +273,6 @@ args = commandArgs(trailingOnly=TRUE)
 if (length(args)==0) {
   stop("At least one argument must be supplied (input file).n", call.=FALSE)
 } 
-SIR_model_simulate(args[1],as.numeric(args[2]),as.numeric(args[3]),args[4],args[5],args[6],args[7],args[8])
+SIS_projections_simulate(args[1],as.numeric(args[2]),as.numeric(args[3]),args[4],args[5],args[6],args[7],args[8])
 
 
