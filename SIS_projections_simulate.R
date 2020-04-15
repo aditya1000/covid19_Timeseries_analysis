@@ -11,10 +11,11 @@ SIR_model_simulate <- function(State_nam,
                                ){
   library(dplyr)
   library(deSolve) 
+  library(ggplot2)
   
   ##setwd('C:/aditya/Covid19/covid-19-india-data-master/complete.csv')
   
-  df1 = read.csv('C:/aditya/Covid19/covid-19-india-data-master/complete.csv')
+  df1 = read.csv('./complete.csv')
   df1_for_Sum  <- df1 %>% dplyr::select(-c("Name.of.State...UT", "Latitude", "Longitude"))
   df1_for_Sum <- df1_for_Sum %>% 
     group_by(Date) %>%
@@ -38,7 +39,7 @@ SIR_model_simulate <- function(State_nam,
   df1$Name.of.State...UT <-  gsub("Union Territory of Chandigarh", "Chandigarh", df1$Name.of.State...UT)
   df1$Name.of.State...UT <-  gsub("Union Territory of Ladakh", "Ladakh", df1$Name.of.State...UT)
   
-  population_data = read.csv('C:/aditya/Covid19/covid-19-india-data-master/Population_data.csv')
+  population_data = read.csv('./Population_data.csv')
   population_data$Population <- as.numeric(gsub("\\,", "", population_data$Population))
   
   #sum(population_data$Population, na.rm =NA)
@@ -232,12 +233,12 @@ SIR_model_simulate <- function(State_nam,
                                       Actual_Recoverd_Non_cum)
     
     write.csv(fit_sel_Cumulative, 
-               paste0("C:/aditya/Covid19/covid-19-india-data-master/exp_results/" , 
+               paste0("./" , 
                       State_nam, "_Projections_Cumulative.csv"),row.names = F )
     
     
     write.csv(fit_sel_non_cum, 
-              paste0("C:/aditya/Covid19/covid-19-india-data-master/exp_results/" , 
+              paste0("./" , 
                      State_nam, "_Projections_Non_cum.csv"),row.names = F )
     
     # fit_sel_non_cum  <- fit %>% select(Date,Predicted_Infected_non_cum,
@@ -268,8 +269,10 @@ SIR_model_simulate <- function(State_nam,
   my_list <- list(fit_sel_Cumulative,fit_sel_non_cum, temp_Rx)
   return(my_list)
 }
-
-
-
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)==0) {
+  stop("At least one argument must be supplied (input file).n", call.=FALSE)
+} 
+SIR_model_simulate(args[1],as.numeric(args[2]),as.numeric(args[3]),args[4],args[5],args[6],args[7],args[8])
 
 
