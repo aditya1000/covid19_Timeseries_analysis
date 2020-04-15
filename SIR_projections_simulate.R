@@ -2,6 +2,8 @@ SIR_model_simulate <- function(State_nam, starting_num_cases, Pred_time,opt_reco
                                min_recovery_rate, max_recovery_rate,
                                min_transmission_rate, max_transmission_rate
                                ){
+options(warn=-1)
+suppressMessages(library(dplyr))
 library(dplyr)
 library(deSolve)
 library(ggplot2)
@@ -88,8 +90,8 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
       # int_gamma2 <- int_gamma + 0.9*(int_gamma) 
       
       int_beta1 <- as.numeric(min_transmission_rate)
-      print(int_beta1)
-      print(class(int_beta1))
+      # print(int_beta1)
+      # print(class(int_beta1))
       int_beta2 <- as.numeric(max_transmission_rate)
       int_gamma1 <- as.numeric(min_recovery_rate)
       int_gamma2 <- as.numeric(max_recovery_rate)
@@ -217,7 +219,7 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
                     IIITD professors Tavpritesh Sethi, Ponnurangam Kumaraguru & Sriram K. along with their teams
                     Aditya Nagori, Raghav Awasthi, Chandan Gupta") +
         theme(legend.position="top", text = element_text(size = 12))
-      print(p + geom_point())
+      # print(p + geom_point())
       
       temp_Rx <- rbind(temp_Rx, c(i,State_nam, R0, as.character(df$Date[1]), Opt_par["beta"] , Opt_par["gamma"]))
     }else{
@@ -225,7 +227,7 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
     }
     colnames(temp_Rx) <- c("starting_cases_no","State_name", "R0", "start_date", 'beta','gamma')
     my_list <- list(fit_sel_non_cum, temp_Rx)
-    return(my_list)
+    # return(my_list)
   }
 
 #take in arguments and run the function
@@ -234,11 +236,11 @@ args = commandArgs(trailingOnly=TRUE)
 if (length(args)==0) {
   stop("At least one argument must be supplied (input file).n", call.=FALSE)
 } 
-print(args[1])
-print(args[2])
-print(args[3])
-print(args[4])
-print(args[5])
+# print(args[1])
+# print(args[2])
+# print(args[3])
+# print(args[4])
+# print(args[5])
 SIR_model_simulate(args[1],as.numeric(args[2]),as.numeric(args[3]),args[4],args[5],args[6],args[7],args[8])
 # SIR_model_simulate <- function(State_nam, starting_num_cases, Pred_time,opt_recovery,
 #                                min_recovery_rate, max_recovery_rate,

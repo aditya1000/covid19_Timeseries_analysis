@@ -12,6 +12,8 @@ SIER_model_simulate <- function(State_nam,
                                min_incubation_rate, 
                                max_incubation_rate
                                ){
+  options(warn=-1)
+  suppressMessages(library(dplyr))
   library(dplyr)
   library(deSolve) 
   library(ggplot2)
@@ -239,12 +241,12 @@ SIER_model_simulate <- function(State_nam,
                                       Actual_Recoverd_Non_cum)
     
     write.csv(fit_sel_Cumulative, 
-               paste0("C:/aditya/Covid19/covid-19-india-data-master/exp_results/" , 
+               paste0("./" , 
                       State_nam, "_Projections_Cumulative.csv"),row.names = F )
     
     
     write.csv(fit_sel_non_cum, 
-              paste0("C:/aditya/Covid19/covid-19-india-data-master/exp_results/" , 
+              paste0("./" , 
                      State_nam, "_Projections_Non_cum.csv"),row.names = F )
     
     fit_sel_non_cum  <- fit %>% select(Date,Predicted_Infected_non_cum,
@@ -264,7 +266,7 @@ SIER_model_simulate <- function(State_nam,
                   IIITD professors Tavpritesh Sethi, Ponnurangam Kumaraguru & Sriram K. along with their teams
                   Aditya Nagori, Raghav Awasthi, Chandan Gupta") +
       theme(legend.position="top", text = element_text(size = 12))
-    print(p + geom_point())
+    # print(p + geom_point())
     
     temp_Rx <- rbind(temp_Rx, c(i,State_nam, R0, as.character(df$Date[1]), Opt_par["beta"] , Opt_par["gamma"]))
   }else{
@@ -273,7 +275,7 @@ SIER_model_simulate <- function(State_nam,
   colnames(temp_Rx) <- c("starting_cases_no","State_name", "R0", Opt_par['beta'],Opt_par['gamma'], 
                         "India_start_date")
   my_list <- list(fit_sel_Cumulative,fit_sel_non_cum, temp_Rx)
-  return(my_list)
+  # return(my_list)
 }
 
 
@@ -283,11 +285,11 @@ args = commandArgs(trailingOnly=TRUE)
 if (length(args)==0) {
   stop("At least one argument must be supplied (input file).n", call.=FALSE)
 } 
-print(args[1])
-print(args[2])
-print(args[3])
-print(args[4])
-print(args[5])
+# print(args[1])
+# print(args[2])
+# print(args[3])
+# print(args[4])
+# print(args[5])
 SIER_model_simulate(args[1],as.numeric(args[2]),as.numeric(args[3]),args[4],args[5],args[6],args[7],args[8],as.numeric(args[9]),args[10],args[11])
 # SIER_model_simulate <- function(State_nam, 
 #                                starting_num_cases, 
