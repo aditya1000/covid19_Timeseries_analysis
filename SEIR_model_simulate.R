@@ -149,7 +149,7 @@ SIER_model_simulate <- function(State_nam,
       #print(out)
       out <- ode(init, Day, seir_model, parameters)
       #print(out)
-      fit <- out[,4]
+      fit <- out[,3]
       #print(parameters["gamma"])
       #sum((Infected - fit)^2+(Removed - out[,4])^2)
       x <- sum((Infected-fit)^2)
@@ -164,11 +164,12 @@ SIER_model_simulate <- function(State_nam,
       #print(out)
       out <- ode(init, Day, seir_model, parameters)
       #print(out)
-      fit <- out[,4]
+      fit <- out[,3]
+      rec <- out[,4]
       #print(parameters["gamma"])
       #sum((Infected - fit)^2+(Removed - out[,4])^2)
       x <- sum((Infected-fit)^2)
-      y <- sum((Recovered-fit)^2)
+      y <- sum((Recovered-rec)^2)
       z <- alpha*x + (1- alpha)*y 
       return(z)
     }
@@ -237,9 +238,14 @@ SIER_model_simulate <- function(State_nam,
                                       Actual_Infected_Non_cum,
                                       Actual_Recoverd_Non_cum)
     
+    write.csv(fit_sel_Cumulative, 
+               paste0("C:/aditya/Covid19/covid-19-india-data-master/exp_results/" , 
+                      State_nam, "_Projections_Cumulative.csv"),row.names = F )
+    
+    
     write.csv(fit_sel_non_cum, 
-              paste0("./" , 
-                     State_nam, "_SEIR_Projections.csv"),row.names = F )
+              paste0("C:/aditya/Covid19/covid-19-india-data-master/exp_results/" , 
+                     State_nam, "_Projections_Non_cum.csv"),row.names = F )
     
     fit_sel_non_cum  <- fit %>% select(Date,Predicted_Infected_non_cum,
                                       Actual_Infected_Non_cum)
