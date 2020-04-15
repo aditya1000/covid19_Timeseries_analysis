@@ -188,15 +188,30 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
       fit$Predicted_Infected_non_cum  <- c(diff(fit$Predicted_Infected) , NA)
       fit$Predicted_Infected_non_cum[which(fit$Predicted_Infected_non_cum < 0)] = 0
       
-      
+   
       
       fit$time <- NULL
-      
-      fit_sel_non_cum <- fit %>% select(Date,
-                                        Predicted_Infected_non_cum,
-                                        Predicted_recovered_non_cum,
-                                        Actual_Infected_Non_cum,
-                                        Actual_Recoverd_Non_cum)
+      fit_sel_Cumulative <- fit %>% select(Date,
+                                      Predicted_Infected,
+                                      Predicted_recovered,
+                                      Actual_Infected,
+                                      Actual_Infected)
+    
+     fit_sel_non_cum <- fit %>% select(Date,
+                                      Predicted_Infected_non_cum,
+                                      Predicted_recovered_non_cum,
+                                      Actual_Infected_Non_cum,
+                                      Actual_Recoverd_Non_cum)
+    
+    write.csv(fit_sel_Cumulative, 
+               paste0("./" , 
+                      State_nam, "_Projections_Cumulative.csv"),row.names = F )
+    
+    
+    write.csv(fit_sel_non_cum, 
+              paste0("./" , 
+                     State_nam, "_Projections_Non_cum.csv"),row.names = F )
+    
       
       write.csv(fit_sel_non_cum, 
                  paste0("./" , 
@@ -226,7 +241,7 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
       temp_Rx <- rbind(temp_Rx, c(i, State_nam, "Not enough data", NA, NA, NA))
     }
     colnames(temp_Rx) <- c("starting_cases_no","State_name", "R0", "start_date", 'beta','gamma')
-    my_list <- list(fit_sel_non_cum, temp_Rx)
+    my_list <- list(fit_sel_Cumulative,fit_sel_non_cum, temp_Rx)
     # return(my_list)
   }
 
