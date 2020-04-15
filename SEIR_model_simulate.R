@@ -239,16 +239,14 @@ SIER_model_simulate <- function(State_nam,
                                       Predicted_recovered_non_cum,
                                       Actual_Infected_Non_cum,
                                       Actual_Recoverd_Non_cum)
-    
+    dir.create(file.path(paste0(State_nam,"_Data"), 'cumulative'), recursive = TRUE)
+    dir.create(file.path(paste0(State_nam,"_Data"), 'non_cumulative'))
     write.csv(fit_sel_Cumulative, 
-               paste0("./" , 
-                      State_nam, "_Projections_Cumulative.csv"),row.names = F )
+               paste0(file.path(paste0(State_nam,"_Data"), 'cumulative', "SEIR.csv")),row.names = F )
     
     
     write.csv(fit_sel_non_cum, 
-              paste0("./" , 
-                     State_nam, "_Projections_Non_cum.csv"),row.names = F )
-    
+              paste0(file.path(paste0(State_nam,"_Data"), 'non_cumulative', "SEIR.csv")),row.names = F )
     fit_sel_non_cum  <- fit %>% select(Date,Predicted_Infected_non_cum,
                                       Actual_Infected_Non_cum)
     

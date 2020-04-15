@@ -204,13 +204,13 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
                                       Actual_Recoverd_Non_cum)
     
     write.csv(fit_sel_Cumulative, 
-               paste0("./" , 
-                      State_nam, "_Projections_Cumulative.csv"),row.names = F )
+               paste0("./cumulative/" , 
+                      State_nam, "_SIR.csv"),row.names = F )
     
     
     write.csv(fit_sel_non_cum, 
-              paste0("./" , 
-                     State_nam, "_Projections_Non_cum.csv"),row.names = F )
+              paste0("./non_cumulative/" , 
+                     State_nam, "_SIR.csv"),row.names = F )
     
       
       write.csv(fit_sel_non_cum, 
