@@ -212,7 +212,7 @@ State_nam = gsub("_", " ", State_nam)
   }else{
     temp_Rx <- rbind(temp_Rx, c(i, State_nam, "Not enough data"))
   }
-  colnames(temp_R) <- c("starting_cases_no","State_name",  
+  colnames(temp_Rx) <- c("starting_cases_no","State_name",  
                         "India_start_date")
   my_list <- list(fit_sel_Cumulative,fit_sel_non_cum, temp_Rx)
   # return(my_list)
