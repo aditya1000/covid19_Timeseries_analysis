@@ -1,8 +1,8 @@
 
 
 SIR_model_simulate <- function(State_nam, 
-                               starting_num_cases, range 1-100
-                               Pred_time,
+                               starting_num_cases, ###range 1-100
+                               Pred_time, ### range 1-100
                                tranmission_rate, ## range 0 - 1
                                recovery_rate ## range 0 - 1
                                ){
