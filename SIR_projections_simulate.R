@@ -44,7 +44,7 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
   temp_Rx <- NULL
   i = starting_num_cases
   recovery_rate = 1/average_days_recover
-  beta = R0/recovery_rate
+  beta = R0*recovery_rate
   gamma = recovery_rate
   Pred_time = Pred_time
   ###for(State_nam in unique(df1$Name.of.State...UT)){
