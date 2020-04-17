@@ -3,9 +3,9 @@
 SEIR_model_simulate <- function(State_nam, 
                                starting_num_cases, ###1-100 
                                Pred_time, ###1-100
-                               incubation_period,  ###1-10 ####
                                R0, ###1-100 ##### basic reproduction number 
-                               average_days_recover ## 15 - 50 ##########Average number of days to recover
+                               average_days_recover, ## 15 - 50 ##########Average number of days to recover
+                               incubation_period  ###1-10 ####
                                ){
   options(warn=-1) 
   suppressMessages(library(dplyr))
@@ -224,7 +224,7 @@ if (length(args)==0) {
   stop("At least one argument must be supplied (input file).n", call.=FALSE)
 } 
 
-SEIR_model_simulate(args[1],as.numeric(args[2]),as.numeric(args[3]),as.numeric(args[4]),as.numeric(args[5]),as.numeric(args[6]),as.numeric(args[7]))
+SEIR_model_simulate(args[1],as.numeric(args[2]),as.numeric(args[3]),as.numeric(args[4]),as.numeric(args[5]),as.numeric(args[6]))
 
 
 
