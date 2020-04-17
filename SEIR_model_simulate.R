@@ -3,10 +3,9 @@
 SIR_model_simulate <- function(State_nam, 
                                starting_num_cases, ###1-100 
                                Pred_time, ###1-100
-                               incubation_period,  ###1-10
-                               incubation_rate, ##range 0.3 - 1
-                               transmission_rate, ## 0 - 1
-                               recovery_rate ## 0 - 1
+                               incubation_period,  ###1-10 ####
+                               R0, ###1-100 ##### basic reproduction number 
+                               average_days_recover ## 15 - 50 ##########Average number of days to recover
                                ){
   options(warn=-1) 
   suppressMessages(library(dplyr))
@@ -14,7 +13,7 @@ SIR_model_simulate <- function(State_nam,
   library(deSolve) 
   library(ggplot2)
   state_name_cache = State_nam
-State_nam = gsub("_", " ", State_nam)
+  State_nam = gsub("_", " ", State_nam)
   
   ##setwd('C:/aditya/Covid19/covid-19-india-data-master/complete.csv')
   
@@ -53,9 +52,12 @@ State_nam = gsub("_", " ", State_nam)
   ##for(i in scenario_list){
   temp_Rx <- NULL
   i = starting_num_cases
-  beta <- transmission_rate
+  recovery_rate = 1/average_days_recover
+  death_rate <- 7.21/1000 ####(2017 report)
+  incubation_rate <- 1/incubation_period
   gamma  <-   recovery_rate
-  delta <- incubation_rate
+  beta <- R0/recovery_rate
+  delta <- incubation_rate + death_rate
   
   Pred_time = Pred_time
   ###for(State_nam in unique(df1$Name.of.State...UT)){
@@ -195,7 +197,7 @@ State_nam = gsub("_", " ", State_nam)
     colnames(fit_sel_non_cum) <- gsub("_Non_cum", "", colnames(fit_sel_non_cum), ignore.case = T)
     # fit_melt <- reshape2::melt(fit_sel_non_cum, id = c("Date"))
     # 
-    R0 <- beta/gamma
+    ##R0 <- beta/gamma
     # 
     # p = ggplot2::ggplot(data = fit_melt , aes(x = Date, y = value,
     #                                           color = variable,group = variable)) + geom_line()
