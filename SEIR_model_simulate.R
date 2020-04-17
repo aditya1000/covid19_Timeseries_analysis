@@ -17,6 +17,9 @@ SEIR_model_simulate <- function(State_nam,
   
   ##setwd('C:/aditya/Covid19/covid-19-india-data-master/complete.csv')
   
+  # df1 = read.csv('/home/reddys/covid/covid19_Timeseries_analysis/complete.csv')
+  # population_data = read.csv('/home/reddys/covid/covid19_Timeseries_analysis/Population_data.csv')
+
   df1 = read.csv('./complete.csv')
   df1_for_Sum  <- df1 %>% dplyr::select(-c("Name.of.State...UT", "Latitude", "Longitude"))
   df1_for_Sum <- df1_for_Sum %>% 
