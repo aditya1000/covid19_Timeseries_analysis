@@ -1,6 +1,6 @@
 
 
-SIR_model_simulate <- function(State_nam, 
+SEIR_model_simulate <- function(State_nam, 
                                starting_num_cases, ###1-100 
                                Pred_time, ###1-100
                                incubation_period,  ###1-10 ####
@@ -224,7 +224,7 @@ if (length(args)==0) {
   stop("At least one argument must be supplied (input file).n", call.=FALSE)
 } 
 
-SIR_model_simulate(args[1],as.numeric(args[2]),as.numeric(args[3]),as.numeric(args[4]),as.numeric(args[5]),as.numeric(args[6]),as.numeric(args[7]))
+SEIR_model_simulate(args[1],as.numeric(args[2]),as.numeric(args[3]),as.numeric(args[4]),as.numeric(args[5]),as.numeric(args[6]),as.numeric(args[7]))
 
 
 
