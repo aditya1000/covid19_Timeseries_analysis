@@ -123,13 +123,16 @@ SIS_model_simulate <- function(State_nam,
         }
       )
     }
+    print(class(N-Infected[1]))
+    print(class(Infected[1]))
     init <- c(S = N-Infected[1],I = Infected[1])
    
     
     Day <- 1:length(Infected)
     
     
-    
+    print(class(beta))
+    print(class(gamma))
     Opt_par <- c(beta, gamma)
     
     
@@ -145,12 +148,13 @@ SIS_model_simulate <- function(State_nam,
     df$Total.Confirmed.cases_non_cum[which(df$Total.Confirmed.cases_non_cum < 0)] = 0
     df$Cured.Discharged.Migrated_non_cum  <- c(diff(df$Cured.Discharged.Migrated) , NA)
     df$Cured.Discharged.Migrated[which(df$Cured.Discharged.Migrated < 0)] = 0
-    
+    print("hi")
     fit$Actual_Infected <- c(df$Total.Confirmed.cases, rep(NA, (nrow(fit) - nrow(df))))
     fit$Actual_Recoverd <- c(df$Cured.Discharged.Migrated, rep(NA, (nrow(fit) - nrow(df))))
     
     fit$Actual_Infected_Non_cum <- c(df$Total.Confirmed.cases_non_cum, rep(NA, (nrow(fit) - nrow(df))))
     fit$Actual_Recoverd_Non_cum <- c(df$Cured.Discharged.Migrated_non_cum, rep(NA, (nrow(fit) - nrow(df))))
+    print("hi")
     #matplot(fit$time, fit[ , 3:4], type = "l", 
     #        xlab = "Day", ylab = "Number of subjects", 
     #        lwd = 2, lty = 1, col = col)
@@ -162,11 +166,13 @@ SIS_model_simulate <- function(State_nam,
     ########################### ggplots #######################
     colnames(fit)[4] <- "Predicted_recovered" 
     colnames(fit)[3] <- "Predicted_Infected" 
+    print("hi")
     fit$Predicted_recovered_non_cum  <- c(diff(fit$Predicted_recovered) , NA)
     fit$Predicted_recovered_non_cum[which(fit$Predicted_recovered_non_cum < 0)] = 0
+    print("hi--")
     fit$Predicted_Infected_non_cum  <- c(diff(fit$Predicted_Infected) , NA)
     fit$Predicted_Infected_non_cum[which(fit$Predicted_Infected_non_cum < 0)] = 0
-    
+    print("hi")
     
     
     fit$time <- NULL

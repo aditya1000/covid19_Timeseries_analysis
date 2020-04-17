@@ -1,6 +1,6 @@
 import os
 PATH = "/mnt/c/Users/amogh/Documents/r_scripts"
-args = ["Delhi","100","10","0.002","0.002"]
+args = ["Delhi","101","10","3","15"]
 out = " "
 for a in args:
     out = out + a + " "
