@@ -165,7 +165,7 @@ State_nam = gsub("_", " ", State_nam)
                                       Predicted_Infected,
                                       Predicted_recovered,
                                       Actual_Infected,
-                                      Actual_Infected)
+                                      Actual_Recoverd)
     
     fit_sel_non_cum <- fit %>% select(Date,
                                       Predicted_Infected_non_cum,
