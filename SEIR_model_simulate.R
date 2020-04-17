@@ -56,7 +56,7 @@ SIR_model_simulate <- function(State_nam,
   death_rate <- 7.21/1000 ####(2017 report)
   incubation_rate <- 1/incubation_period
   gamma  <-   recovery_rate
-  beta <- R0/recovery_rate
+  beta <- R0*recovery_rate
   delta <- incubation_rate + death_rate
   
   Pred_time = Pred_time
