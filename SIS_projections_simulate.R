@@ -167,6 +167,7 @@ SIS_model_simulate <- function(State_nam,
     colnames(fit)[4] <- "Predicted_recovered" 
     colnames(fit)[3] <- "Predicted_Infected" 
     print("hi")
+    print(class(diff(fit$Predicted_recovered)))
     fit$Predicted_recovered_non_cum  <- c(diff(fit$Predicted_recovered) , NA)
     fit$Predicted_recovered_non_cum[which(fit$Predicted_recovered_non_cum < 0)] = 0
     print("hi--")
