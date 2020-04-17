@@ -1,8 +1,8 @@
 SIR_model_simulate <- function(State_nam, 
                                starting_num_cases, ###range 1-100
                                Pred_time, ### range 1-100
-                               tranmission_rate, ## range 0 - 1
-                               recovery_rate ## range 0 - 1
+                               R0, ###1-100 ##### basic reproduction number 
+                               average_days_recover ## 15 - 50 ##########Average number of days to recover
                                ){
 options(warn=-1) 
 suppressMessages(library(dplyr))
@@ -43,7 +43,9 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
 
   temp_Rx <- NULL
   i = starting_num_cases
-  
+  recovery_rate = 1/average_days_recover
+  beta = R0/recovery_rate
+  gamma = recovery_rate
   Pred_time = Pred_time
   ###for(State_nam in unique(df1$Name.of.State...UT)){
     df <-  df1 %>% filter(Name.of.State...UT == State_nam)
@@ -79,8 +81,7 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
       # int_gamma1 <- int_gamma - 0.9*(int_gamma) 
       # int_gamma2 <- int_gamma + 0.9*(int_gamma) 
       
-      beta = tranmission_rate
-      gamma = recovery_rate
+      
       
       # R0_lo  <- int_beta1 / int_gamma1
       # R0_up  <- int_beta2 / int_gamma2
@@ -170,7 +171,7 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
        #                                   Actual_Infected_Non_cum)
        # 
       colnames(fit_sel_non_cum) <- gsub("_Non_cum", "", colnames(fit_sel_non_cum), ignore.case = T)
-      R0 <- beta/gamma
+      ###R0 <- beta/gamma
       # fit_melt <- reshape2::melt(fit_sel_non_cum, id = c("Date"))
       # 
       # R0 <- setNames(Opt_par["beta"] / Opt_par["gamma"], "R0")
