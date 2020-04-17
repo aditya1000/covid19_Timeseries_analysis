@@ -1,8 +1,8 @@
 SIS_model_simulate <- function(State_nam, 
                                starting_num_cases, 
                                Pred_time,
-                               transmission_rate,
-                               recovery_rate
+                               R0,
+                               average_days_recover
                                ){
   library(dplyr)
   library(deSolve) 
@@ -46,7 +46,8 @@ SIS_model_simulate <- function(State_nam,
   ##for(i in scenario_list){
   temp_Rx <- NULL
   i = starting_num_cases
-  beta  = transmission_rate
+  recovery_rate = 1/average_days_recover
+  beta  = R0*recovery_rate
   gamma = recovery_rate
   #int_gamma = 0.28
   #int_beta = 0.27
@@ -197,7 +198,7 @@ SIS_model_simulate <- function(State_nam,
     colnames(fit_sel_non_cum) <- gsub("_Non_cum", "", colnames(fit_sel_non_cum), ignore.case = T)
     # fit_melt <- reshape2::melt(fit_sel_non_cum, id = c("Date"))
     # 
-    R0 <- beta/gamma
+    #R0 <- beta/gamma
     # 
     # p = ggplot2::ggplot(data = fit_melt , aes(x = Date, y = value,
     #                                           color = variable,group = variable)) + geom_line()
