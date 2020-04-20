@@ -1,12 +1,12 @@
 
 
 SEIR_model_simulate <- function(State_nam, 
-                               starting_num_cases, ###1-100 
-                               Pred_time, ###1-100
-                               R0, ###1-100 ##### basic reproduction number 
-                               average_days_recover, ## 15 - 50 ##########Average number of days to recover
-                               incubation_period  ###1-10 ####
-                               ){
+                                starting_num_cases, ###1-100 
+                                Pred_time, ###1-100
+                                R0, ###1-100 ##### basic reproduction number 
+                                average_days_recover, ## 15 - 50 ##########Average number of days to recover
+                                incubation_period  ###1-10 ####
+){
   options(warn=-1) 
   suppressMessages(library(dplyr))
   library(dplyr)
@@ -19,7 +19,7 @@ SEIR_model_simulate <- function(State_nam,
   
   # df1 = read.csv('/home/reddys/covid/covid19_Timeseries_analysis/complete.csv')
   # population_data = read.csv('/home/reddys/covid/covid19_Timeseries_analysis/Population_data.csv')
-
+  
   df1 = read.csv('./complete.csv')
   df1_for_Sum  <- df1 %>% dplyr::select(-c("Name.of.State...UT", "Latitude", "Longitude"))
   df1_for_Sum <- df1_for_Sum %>% 
@@ -61,7 +61,7 @@ SEIR_model_simulate <- function(State_nam,
   gamma  <-   recovery_rate
   beta <- R0*recovery_rate
   delta <- incubation_rate + death_rate
-  
+  E = incubation_period
   Pred_time = Pred_time
   ###for(State_nam in unique(df1$Name.of.State...UT)){
   df <-  df1 %>% filter(Name.of.State...UT == State_nam)
@@ -80,6 +80,8 @@ SEIR_model_simulate <- function(State_nam,
     
     Infected =  df$Total.Confirmed.cases - (df$Cured.Discharged.Migrated+df$Death)
     Recovered = df$Cured.Discharged.Migrated 
+    Exposed  =  c(diff(Infected, E),rep(NA, E))
+    Exposed[which(Exposed < 0)] <- 0
     # Infected = log(Infected,base = 10) #### Natural Log
     # Infected = log(Infected,base = 10) #### Natural Log 
     # Infected = Infected[c(1:16)]
@@ -87,8 +89,8 @@ SEIR_model_simulate <- function(State_nam,
     
     N = population_data$Population[population_data$State == State_nam]  #### Population of India 
     
-   
-  
+    
+    
     
     Day=1:(length(Infected))
     
@@ -123,8 +125,8 @@ SEIR_model_simulate <- function(State_nam,
     }
     
     Day <- 1:length(Infected)
-    init <- c(S = N-Infected[1]-incubation_period-Recovered[1],E = incubation_period,I = Infected[1],R = Recovered[1])
-  
+    init <- c(S = N-Infected[1]-Exposed[1]-Recovered[1],E = Exposed[1],I = Infected[1],R = Recovered[1])
+    
     Opt_par <- c(beta, gamma, delta)
     
     
@@ -138,14 +140,20 @@ SEIR_model_simulate <- function(State_nam,
     
     df$Total.Confirmed.cases_non_cum  <- c(diff(df$Total.Confirmed.cases) , NA)
     df$Total.Confirmed.cases_non_cum[which(df$Total.Confirmed.cases_non_cum < 0)] = 0
+    
     df$Cured.Discharged.Migrated_non_cum  <- c(diff(df$Cured.Discharged.Migrated) , NA)
     df$Cured.Discharged.Migrated[which(df$Cured.Discharged.Migrated < 0)] = 0
     
+    df$Total_Exposed   <- Exposed
+    df$Total_Exposed_non_cum   <- c(diff(Exposed), NA) 
+    
     fit$Actual_Infected <- c(df$Total.Confirmed.cases, rep(NA, (nrow(fit) - nrow(df))))
     fit$Actual_Recoverd <- c(df$Cured.Discharged.Migrated, rep(NA, (nrow(fit) - nrow(df))))
+    fit$Actual_Exposed <-  c(df$Total_Exposed, rep(NA, (nrow(fit) - nrow(df))))
     
     fit$Actual_Infected_Non_cum <- c(df$Total.Confirmed.cases_non_cum, rep(NA, (nrow(fit) - nrow(df))))
     fit$Actual_Recoverd_Non_cum <- c(df$Cured.Discharged.Migrated_non_cum, rep(NA, (nrow(fit) - nrow(df))))
+    fit$Actual_Exposed_Non_cum <- c(df$Total_Exposed_non_cum, rep(NA, (nrow(fit) - nrow(df))))
     #matplot(fit$time, fit[ , 3:4], type = "l", 
     #        xlab = "Day", ylab = "Number of subjects", 
     #        lwd = 2, lty = 1, col = col)
@@ -154,30 +162,35 @@ SEIR_model_simulate <- function(State_nam,
     #        xlab = "Day", ylab = "Number of subjects", 
     #        lwd = 2, lty = 1, col = col)
     
-    ########################### ggplots #######################
-    colnames(fit)[4] <- "Predicted_recovered" 
-    colnames(fit)[3] <- "Predicted_Infected" 
+    ############ ggplots #
+    colnames(fit)[5] <- "Predicted_recovered" 
+    colnames(fit)[4] <- "Predicted_Infected" 
+    colnames(fit)[3] <- "Predicted_Exposed" 
     fit$Predicted_recovered_non_cum  <- c(diff(fit$Predicted_recovered) , NA)
     fit$Predicted_recovered_non_cum[which(fit$Predicted_recovered_non_cum < 0)] = 0
     fit$Predicted_Infected_non_cum  <- c(diff(fit$Predicted_Infected) , NA)
     fit$Predicted_Infected_non_cum[which(fit$Predicted_Infected_non_cum < 0)] = 0
+    fit$Predicted_Exposed_non_cum  <- c(diff(fit$Predicted_Exposed) , NA)
+    fit$Predicted_Exposed_non_cum[which(fit$Predicted_Exposed_non_cum < 0)] = 0
     
     
     
     fit$time <- NULL
     
-    fit_sel_Cumulative <- fit %>% select(Date,
-                                      Predicted_Infected,
-                                      Predicted_recovered,
-                                      Actual_Infected,
-                                      Actual_Recoverd)
+    fit_sel_Cumulative <- fit %>% dplyr::select(Date,Predicted_Infected,
+                                                Predicted_recovered,
+                                                Actual_Infected,
+                                                Actual_Recoverd,
+                                                Actual_Exposed,
+                                                Predicted_Exposed)
     
     fit_sel_non_cum <- fit %>% select(Date,
                                       Predicted_Infected_non_cum,
                                       Predicted_recovered_non_cum,
                                       Actual_Infected_Non_cum,
-                                      Actual_Recoverd_Non_cum)
-    
+                                      Actual_Recoverd_Non_cum,
+                                      Actual_Exposed_Non_cum,
+                                      Predicted_Exposed_non_cum)
     # write.csv(fit_sel_Cumulative, 
     #           paste0("C:/aditya/Covid19/covid-19-india-data-master/exp_results/" , 
     #                  State_nam, "_Projections_cumulative.csv"),row.names = F )
@@ -188,7 +201,7 @@ SEIR_model_simulate <- function(State_nam,
     dir.create(file.path(paste0(state_name_cache,"_Data"), 'cumulative'), recursive = TRUE)
     dir.create(file.path(paste0(state_name_cache,"_Data"), 'non_cumulative'))
     write.csv(fit_sel_Cumulative, 
-               paste0(file.path(paste0(state_name_cache,"_Data"), 'cumulative', "SEIR.csv")),row.names = F )
+              paste0(file.path(paste0(state_name_cache,"_Data"), 'cumulative', "SEIR.csv")),row.names = F )
     
     
     write.csv(fit_sel_non_cum, 
@@ -218,7 +231,7 @@ SEIR_model_simulate <- function(State_nam,
     temp_Rx <- rbind(temp_Rx, c(i, State_nam, "Not enough data"))
   }
   colnames(temp_Rx) <- c("starting_cases_no","State_name",  
-                        "India_start_date")
+                         "India_start_date")
   my_list <- list(fit_sel_Cumulative,fit_sel_non_cum, temp_Rx)
   # return(my_list)
 }
@@ -228,8 +241,6 @@ if (length(args)==0) {
 } 
 
 SEIR_model_simulate(args[1],as.numeric(args[2]),as.numeric(args[3]),as.numeric(args[4]),as.numeric(args[5]),as.numeric(args[6]))
-
-
 
 
 
