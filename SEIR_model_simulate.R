@@ -3,9 +3,9 @@
 SEIR_model_simulate <- function(State_nam, 
                                 starting_num_cases, ###1-100 
                                 Pred_time, ###1-100
-                                R0, ###1-100 ##### basic reproduction number 
-                                average_days_recover, ## 15 - 50 ##########Average number of days to recover
-                                incubation_period  ###1-10 ####
+                                R0, ###1-10 ##### basic reproduction number 
+                                average_days_recover, ## 7 - 30 ##########Average number of days to recover
+                                incubation_period  ###3-10 ####
 ){
   options(warn=-1) 
   suppressMessages(library(dplyr))
