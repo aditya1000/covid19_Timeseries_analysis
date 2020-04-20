@@ -138,15 +138,16 @@ SEIR_model_simulate <- function(State_nam,
     col <- 1:2 # colour
     fit$Date <- seq(df$Date[1], df$Date[1] + (nrow(df) + (Pred_time-1)), 1)
     
-    df$Total.Confirmed.cases_non_cum  <- c(diff(df$Total.Confirmed.cases) , NA)
-    df$Total.Confirmed.cases_non_cum[which(df$Total.Confirmed.cases_non_cum < 0)] = 0
-    
+   df$Total.Confirmed.cases_non_cum  <- c(diff(df$Total.Confirmed.cases) , NA)
+   df$Total.Confirmed.cases_non_cum[which(df$Total.Confirmed.cases_non_cum < 0)] = 0
+
     df$Cured.Discharged.Migrated_non_cum  <- c(diff(df$Cured.Discharged.Migrated) , NA)
-    df$Cured.Discharged.Migrated[which(df$Cured.Discharged.Migrated < 0)] = 0
-    
-    df$Total_Exposed   <- Exposed
-    df$Total_Exposed_non_cum   <- c(diff(Exposed), NA) 
-    
+    df$Cured.Discharged.Migrated_non_cum[which(df$Cured.Discharged.Migrated_non_cum < 0)] = 0
+
+   df$Total_Exposed   <- Exposed
+   df$Total_Exposed_non_cum   <- c(diff(Exposed), NA) 
+   df$Total_Exposed_non_cum[which(df$Total_Exposed_non_cum < 0)] = 0
+
     fit$Actual_Infected <- c(df$Total.Confirmed.cases, rep(NA, (nrow(fit) - nrow(df))))
     fit$Actual_Recoverd <- c(df$Cured.Discharged.Migrated, rep(NA, (nrow(fit) - nrow(df))))
     fit$Actual_Exposed <-  c(df$Total_Exposed, rep(NA, (nrow(fit) - nrow(df))))
