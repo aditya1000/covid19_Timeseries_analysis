@@ -202,7 +202,11 @@ SEIR_model_simulate <- function(State_nam,
     dir.create(file.path(paste0(state_name_cache,"_Data",starting_num_cases,Pred_time,R0,average_days_recover,incubation_period), 'cumulative'), recursive = TRUE)
     dir.create(file.path(paste0(state_name_cache,"_Data",starting_num_cases,Pred_time,R0,average_days_recover,incubation_period), 'non_cumulative'))
     write.csv(fit_sel_Cumulative, 
+<<<<<<< Updated upstream
+              paste0(file.path(paste0(state_name_cache,"_Data"), 'cumulative', "SEIR.csv")),row.names = F )
+=======
                paste0(file.path(paste0(state_name_cache,"_Data",starting_num_cases,Pred_time,R0,average_days_recover,incubation_period), 'cumulative', "SEIR.csv")),row.names = F )
+>>>>>>> Stashed changes
     
     
     write.csv(fit_sel_non_cum, 

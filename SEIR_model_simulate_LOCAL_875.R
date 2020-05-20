@@ -199,14 +199,14 @@ SEIR_model_simulate <- function(State_nam,
     # write.csv(fit_sel_non_cum, 
     #            paste0("C:/aditya/Covid19/covid-19-india-data-master/exp_results/" , 
     #                   State_nam, "_Projections_non_cum.csv"),row.names = F )
-    dir.create(file.path(paste0(state_name_cache,"_Data",starting_num_cases,Pred_time,R0,average_days_recover,incubation_period), 'cumulative'), recursive = TRUE)
-    dir.create(file.path(paste0(state_name_cache,"_Data",starting_num_cases,Pred_time,R0,average_days_recover,incubation_period), 'non_cumulative'))
+    dir.create(file.path(paste0(state_name_cache,"_Data"), 'cumulative'), recursive = TRUE)
+    dir.create(file.path(paste0(state_name_cache,"_Data"), 'non_cumulative'))
     write.csv(fit_sel_Cumulative, 
-               paste0(file.path(paste0(state_name_cache,"_Data",starting_num_cases,Pred_time,R0,average_days_recover,incubation_period), 'cumulative', "SEIR.csv")),row.names = F )
+              paste0(file.path(paste0(state_name_cache,"_Data"), 'cumulative', "SEIR.csv")),row.names = F )
     
     
     write.csv(fit_sel_non_cum, 
-              paste0(file.path(paste0(state_name_cache,"_Data",starting_num_cases,Pred_time,R0,average_days_recover,incubation_period), 'non_cumulative', "SEIR.csv")),row.names = F )
+              paste0(file.path(paste0(state_name_cache,"_Data"), 'non_cumulative', "SEIR.csv")),row.names = F )
     # 
     #  fit_sel_non_cum  <- fit %>% select(Date,Predicted_Infected_non_cum,
     #                                    Actual_Infected_Non_cum)

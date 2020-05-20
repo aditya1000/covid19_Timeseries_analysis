@@ -150,14 +150,14 @@ population_data$Population <- as.numeric(gsub("\\,", "", population_data$Populat
                                         Actual_Infected_Non_cum,
                                         Actual_Recoverd_Non_cum)
 
-      dir.create(file.path(paste0(state_name_cache,"_Data"), 'cumulative'), recursive = TRUE)
-      dir.create(file.path(paste0(state_name_cache,"_Data"), 'non_cumulative'))
+      dir.create(file.path(paste0(state_name_cache,"_Data",starting_num_cases,Pred_time,R0,average_days_recover), 'cumulative'), recursive = TRUE)
+      dir.create(file.path(paste0(state_name_cache,"_Data",starting_num_cases,Pred_time,R0,average_days_recover), 'non_cumulative'))
       write.csv(fit_sel_Cumulative, 
-               paste0(file.path(paste0(state_name_cache,"_Data"), 'cumulative', "SIR.csv")),row.names = F )
+               paste0(file.path(paste0(state_name_cache,"_Data",starting_num_cases,Pred_time,R0,average_days_recover), 'cumulative', "SIR.csv")),row.names = F )
     
     
       write.csv(fit_sel_non_cum, 
-              paste0(file.path(paste0(state_name_cache,"_Data"), 'non_cumulative', "SIR.csv")),row.names = F )
+              paste0(file.path(paste0(state_name_cache,"_Data",starting_num_cases,Pred_time,R0,average_days_recover), 'non_cumulative', "SIR.csv")),row.names = F )
 
       # write.csv(fit_sel_Cumulative, 
       #           paste0("./" , 
