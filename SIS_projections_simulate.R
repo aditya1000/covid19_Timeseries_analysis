@@ -3,7 +3,10 @@ SIS_model_simulate <- function(State_nam,
                                starting_num_cases, 
                                Pred_time,
                                R0,
-                               average_days_recover){
+                               average_days_recover,
+                               incubation_period){
+  options(warn=-1) 
+  suppressMessages(library(dplyr))
   library(dplyr)
   library(deSolve) 
   library(ggplot2)

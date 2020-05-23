@@ -2,7 +2,8 @@ SIR_model_simulate <- function(State_nam,
                                starting_num_cases, ###range 1-100
                                Pred_time, ### range 1-100
                                R0, ###1-100 ##### basic reproduction number 
-                               average_days_recover ## 15 - 50 ##########Average number of days to recover
+                               average_days_recover,
+                               incubation_period ## 15 - 50 ##########Average number of days to recover
                                ){
 options(warn=-1) 
 suppressMessages(library(dplyr))
