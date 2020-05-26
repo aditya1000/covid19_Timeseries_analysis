@@ -24,11 +24,11 @@ df = pd.DataFrame(dflist, columns = column_names)
 
 # state = pd.read_csv('states.csv',names=['Name of State/UT','Latitude','Longitude'])
 
-dfs = pd.merge(df, state, on='Name of State / UT',how='left')
+# dfs = pd.merge(df, state, on='Name of State / UT',how='left')
 
 
 
-dfs.to_csv('complete.csv',index=None)
+df.to_csv('complete.csv',index=None)
 
 
 print("Done")
