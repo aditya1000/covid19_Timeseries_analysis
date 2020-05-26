@@ -9,7 +9,7 @@ with urllib.request.urlopen("https://api.rootnet.in/covid19-in/stats/history") a
 
 print("Saving last updated on", data['lastRefreshed'])
 
-column_names = ['Date','Name of State/UT','Total Confirmed cases (Indian National)','Total Confirmed cases (Foreign National)','Cured/Discharged/Migrated','Death','Total Confirmed cases']
+column_names = ['Date','Name of State / UT','Total Confirmed cases (Indian National)','Total Confirmed cases ( Foreign National )','Cured/Discharged/Migrated','Death','Total Confirmed cases']
 
 df = pd.DataFrame(columns = column_names)
 
@@ -24,11 +24,11 @@ df = pd.DataFrame(dflist, columns = column_names)
 
 # state = pd.read_csv('states.csv',names=['Name of State/UT','Latitude','Longitude'])
 
-# dfs = pd.merge(df, state, on='Name of State/UT',how='left')
+dfs = pd.merge(df, state, on='Name of State / UT',how='left')
 
 
 
-df.to_csv('complete.csv',index=None)
+dfs.to_csv('complete.csv',index=None)
 
 
 print("Done")
