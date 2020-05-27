@@ -14,17 +14,30 @@ state_name_cache = State_nam
 State_nam = gsub("_", " ", State_nam)
 ##setwd('C:/aditya/Covid19/covid-19-india-data-master/complete.csv')
 
-df1 = read.csv('./complete.csv')
-df1_for_Sum  <- df1 %>% dplyr::select(-c("Name.of.State...UT", "Latitude", "Longitude"))
+###df1 = read.csv('./complete.csv')
+df1 = read.csv('./state_level_Ts.csv')
+complete <- read.csv('./complete.csv')
+complete$Latitude <- NULL
+complete$Longitude <- NULL
+colnames(complete)
+colnames(df1) <- colnames(complete)
+
+df1$Name.of.State...UT <- as.character(df1$Name.of.State...UT)
+df1$Name.of.State...UT <- gsub("\\#", "", df1$Name.of.State...UT)
+  
+ 
+df1$Date <- as.Date(df1$Date, "%d-%m-%Y")
+
+df1_for_Sum  <- df1 %>% dplyr::select(-c("Name.of.State...UT"))
 df1_for_Sum <- df1_for_Sum %>% 
   group_by(Date) %>%
   summarise_all(sum)
 
 df1_for_Sum$Name.of.State...UT <- "India"  
-df1$Latitude <- NULL
-df1$Longitude <- NULL
-colnames(df1_for_Sum)
-colnames(df1)
+#df1$Latitude <- NULL
+#df1$Longitude <- NULL
+#colnames(df1_for_Sum)
+#colnames(df1)
 
 df1 <- rbind(df1_for_Sum, df1 )
 # all_contries_Conf  = read.csv('C:/aditya/Covid19/COVID-19-master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv')
