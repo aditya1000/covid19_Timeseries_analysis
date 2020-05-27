@@ -20,12 +20,15 @@ for day in data['data']:
 
 df = pd.DataFrame(dflist, columns = column_names)
 
+df['Date'] = pd.to_datetime(df['Date'])
+
+df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
+
 # df[df.Date=='2020-05-20']
 
 # state = pd.read_csv('states.csv',names=['Name of State/UT','Latitude','Longitude'])
 
 # dfs = pd.merge(df, state, on='Name of State / UT',how='left')
-
 
 
 df.to_csv('complete.csv',index=None)
