@@ -20,7 +20,7 @@ SEIR_model_simulate <- function(State_nam,
   # df1 = read.csv('/home/reddys/covid/covid19_Timeseries_analysis/complete.csv')
   # population_data = read.csv('/home/reddys/covid/covid19_Timeseries_analysis/Population_data.csv')
   
-df1 = read.csv('./state_level_Ts.csv')
+df1 <- read.csv('./state_level_Ts.csv')
 complete <- read.csv('./complete.csv')
 complete$Latitude <- NULL
 complete$Longitude <- NULL
