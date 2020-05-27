@@ -15,7 +15,7 @@ State_nam = gsub("_", " ", State_nam)
 ##setwd('C:/aditya/Covid19/covid-19-india-data-master/complete.csv')
 
 ###df1 = read.csv('./complete.csv')
-df1 = read.csv('./state_level_Ts.csv')
+df1 <- read.csv('./state_level_Ts.csv')
 complete <- read.csv('./complete.csv')
 complete$Latitude <- NULL
 complete$Longitude <- NULL
