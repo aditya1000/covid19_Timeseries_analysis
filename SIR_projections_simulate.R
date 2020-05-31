@@ -26,7 +26,7 @@ df1$Name.of.State...UT <- as.character(df1$Name.of.State...UT)
 df1$Name.of.State...UT <- gsub("\\#", "", df1$Name.of.State...UT)
   
  
-df1$Date <- as.Date(df1$Date, "%d-%m-%Y")
+df1$Date <- as.Date(df1$Date, "%Y-%m-%d")
 
 df1_for_Sum  <- df1 %>% dplyr::select(-c("Name.of.State...UT"))
 df1_for_Sum <- df1_for_Sum %>% 
