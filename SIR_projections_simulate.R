@@ -15,6 +15,7 @@ State_nam = gsub("_", " ", State_nam)
 ##setwd('C:/aditya/Covid19/covid-19-india-data-master/complete.csv')
 
 ###df1 = read.csv('./complete.csv')
+df1_India <- read.csv('./india_ts.csv')
 df1 <- read.csv('./state_level_Ts.csv')
 complete <- read.csv('./complete.csv')
 complete$Latitude <- NULL
@@ -28,11 +29,11 @@ df1$Name.of.State...UT <- gsub("\\#", "", df1$Name.of.State...UT)
  
 df1$Date <- as.Date(df1$Date, "%Y-%m-%d")
 
-df1_for_Sum  <- df1 %>% dplyr::select(-c("Name.of.State...UT"))
-df1_for_Sum <- df1_for_Sum %>% 
-  group_by(Date) %>%
-  summarise_all(sum)
-
+#df1_for_Sum  <- df1 %>% dplyr::select(-c("Name.of.State...UT"))
+#df1_for_Sum <- df1_for_Sum %>% 
+#  group_by(Date) %>%
+#  summarise_all(sum)
+df1_for_Sum <- df1_India
 df1_for_Sum$Name.of.State...UT <- "India"  
 #df1$Latitude <- NULL
 #df1$Longitude <- NULL
